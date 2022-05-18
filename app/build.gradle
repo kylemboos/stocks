@@ -1,0 +1,110 @@
+import com.kyleboos.stock.buildSrc.Libs
+
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'com.google.devtools.ksp' version '1.6.10-1.0.2'
+}
+
+//needed for KSP issue https://github.com/google/ksp/issues/37
+kotlin {
+    sourceSets {
+        debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
+}
+
+android {
+    compileSdk Libs.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.boos.stock"
+        minSdk Libs.minSdkVersion
+        targetSdk Libs.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+
+    implementation Libs.Kotlin.stdlib
+    implementation Libs.Coroutines.android
+
+    implementation Libs.AndroidX.coreKtx
+    implementation Libs.AndroidX.navigation
+    implementation Libs.AndroidX.Activity.activityCompose
+    implementation Libs.AndroidX.Compose.runtime
+    implementation Libs.AndroidX.Compose.foundation
+    implementation Libs.AndroidX.Compose.layout
+    implementation Libs.AndroidX.Compose.ui
+    implementation Libs.AndroidX.Compose.uiUtil
+    implementation Libs.AndroidX.Compose.material
+    implementation Libs.AndroidX.Compose.animation
+    implementation Libs.AndroidX.Compose.tooling
+    implementation Libs.AndroidX.Room.runtime
+    kapt Libs.AndroidX.Room.annotationProcessor
+    implementation Libs.AndroidX.Room.ktx
+    implementation Libs.AndroidX.Hilt.android
+    implementation Libs.AndroidX.Hilt.compose
+    kapt Libs.AndroidX.Hilt.kaptCompiler
+
+    implementation Libs.Network.retrofit
+    implementation Libs.Network.openCsv
+    implementation Libs.Network.moshi
+    implementation Libs.Network.moshiKotlin
+    implementation Libs.Network.moshiAdapters
+    implementation Libs.Network.retrofitMoshiAdapter
+
+    implementation Libs.Accompanist.insets
+    implementation Libs.Accompanist.swipeRefresh
+    implementation Libs.Coil.coilCompose
+    implementation Libs.ComposeDestinations.core
+    ksp Libs.ComposeDestinations.ksp
+
+    androidTestImplementation Libs.AndroidX.Activity.activityCompose
+    androidTestImplementation Libs.JUnit.junit
+    androidTestImplementation Libs.AndroidX.Test.core
+    androidTestImplementation Libs.AndroidX.Test.rules
+    androidTestImplementation Libs.AndroidX.Test.Ext.junit
+    androidTestImplementation Libs.AndroidX.Compose.uiTest
+    debugImplementation Libs.AndroidX.Compose.uiTestManifest
+}
+

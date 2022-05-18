@@ -1,0 +1,18 @@
+import com.kyleboos.stock.buildSrc.Libs
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath Libs.androidGradlePlugin
+        classpath Libs.Kotlin.gradlePlugin
+        classpath Libs.AndroidX.Hilt.gradlePlugin
+    }
+}// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

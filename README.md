@@ -1,0 +1,1 @@
+Simple stock app project showcasing modern Android development Compose/Coroutine MVVM/Hilt (single module) 
