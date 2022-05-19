@@ -3,6 +3,7 @@ package com.boos.stock.di
 import android.content.Context
 import androidx.room.Room
 import com.boos.stock.data.local.StockDatabase
+import com.boos.stock.data.remote.AuthApi
 import com.boos.stock.data.remote.StockApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -20,12 +21,28 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+
+    @Provides
+    @Singleton
+    fun provideAuthApi(): AuthApi {
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+
+
+        return Retrofit.Builder()
+            .baseUrl(AuthApi.BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+            .create()
+    }
+
     @Provides
     @Singleton
     fun provideStockApi(): StockApi {
 
         val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
+        .add(KotlinJsonAdapterFactory())
             .build()
 
         return Retrofit.Builder()

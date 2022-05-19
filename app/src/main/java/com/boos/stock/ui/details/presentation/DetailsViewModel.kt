@@ -20,7 +20,6 @@ class DetailsViewModel @Inject constructor(
     private val stockRepository: StockRepository
 ) : ViewModel() {
 
-    //need a state
     var uiState by mutableStateOf(DetailsUiState())
 
     init {
